@@ -14,6 +14,9 @@ namespace Clash.SDK.Models.Enums
         Rule,
 
         [EnumMember(Value = "global")]
-        Global
+        Global,
+
+        [EnumMember(Value = "script")]
+        Script
     }
 }

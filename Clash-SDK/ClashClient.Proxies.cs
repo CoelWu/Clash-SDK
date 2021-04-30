@@ -14,21 +14,6 @@ namespace Clash.SDK
 {
     public sealed partial class ClashClient
     {
-        public async Task<ClashProvidersProxiesResponse> GetClashProvidersProxies()
-        {
-            ClashProvidersProxiesResponse result = new ClashProvidersProxiesResponse
-            {
-                Providers = new List<ClashProvidersProxyData>()
-            };
-            string data = await GetAsync<string>(API_PROVIDERS_PROXIES);
-            var obj = JObject.Parse(data);
-            foreach (JProperty provider in obj["providers"])
-            {
-                result.Providers.Add(provider.Value.ToObject<ClashProvidersProxyData>());
-            }
-            return result;
-        }
-
         public async Task<ClashProxiesResponse> GetClashProxies()
         {
             ClashProxiesResponse result = new ClashProxiesResponse
@@ -40,6 +25,21 @@ namespace Clash.SDK
             foreach (JProperty proxy in obj["proxies"])
             {
                 result.Proxies.Add(proxy.Value.ToObject<ClashProxyData>());
+            }
+            return result;
+        }
+
+        public async Task<ClashProxyProvidersResponse> GetClashProxyProviders()
+        {
+            ClashProxyProvidersResponse result = new ClashProxyProvidersResponse
+            {
+                Providers = new List<ClashProxyProviderData>()
+            };
+            string data = await GetAsync<string>(API_PROXY_PROVIDERS);
+            var obj = JObject.Parse(data);
+            foreach (JProperty provider in obj["providers"])
+            {
+                result.Providers.Add(provider.Value.ToObject<ClashProxyProviderData>());
             }
             return result;
         }
@@ -92,17 +92,17 @@ namespace Clash.SDK
             return result;
         }
 
-        public async Task<ClashNullableResponse> UpdateProxyProviders(string name)
+        public async Task<ClashNullableResponse> HealthCheckProxyProvider(string name)
         {
-            string url = string.Format(API_PROVIDERS_PROXIES_NAME, Uri.EscapeDataString(name));
+            string url = string.Format(API_PROXY_PROVIDER_HEALTHCHECK, Uri.EscapeDataString(name));
 
-            var result = await PutAsync<ClashNullableResponse>(url);
+            var result = await GetAsync<ClashNullableResponse>(url);
             return result;
         }
 
-        public async Task<ClashNullableResponse> UpdateRuleProviders(string name)
+        public async Task<ClashNullableResponse> UpdateProxyProvider(string name)
         {
-            string url = string.Format(API_PROVIDERS_RULES_NAME, Uri.EscapeDataString(name));
+            string url = string.Format(API_PROXY_PROVIDER_NAME, Uri.EscapeDataString(name));
 
             var result = await PutAsync<ClashNullableResponse>(url);
             return result;

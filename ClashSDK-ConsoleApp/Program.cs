@@ -8,7 +8,7 @@ namespace ClashSDK.ConsoleApp
 {
     class Program
     {
-        static ClashClient clashClient = new ClashClient(57339);
+        static ClashClient clashClient = new ClashClient(51034);
 
         static void Main(string[] args)
         {
@@ -24,9 +24,9 @@ namespace ClashSDK.ConsoleApp
             Console.WriteLine("------------------Clash Version------------------");
             var version = await clashClient.GetClashVersion();
             Console.WriteLine(version.Version);
-            // 打印Providers代理
-            Console.WriteLine("------------------Clash Providers Proxies------------------");
-            var providers = await clashClient.GetClashProvidersProxies();
+            // 打印Proxy Providers
+            Console.WriteLine("------------------Clash Proxy Providers ------------------");
+            var providers = await clashClient.GetClashProxyProviders();
             foreach (var provider in providers.Providers)
             {
                 Console.WriteLine($"Name: {provider.Name} Type: {provider.Type} Vehicle Type: {provider.VehicleType}");

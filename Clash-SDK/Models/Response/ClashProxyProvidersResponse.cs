@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Clash.SDK.Models.Response
 {
-    public class ClashProvidersProxiesResponse
+    public class ClashProxyProvidersResponse
     {
         /// <summary>
         /// 所有Providers代理
         /// </summary>
         [JsonProperty("providers")]
-        public List<ClashProvidersProxyData> Providers { get; set; }
+        public List<ClashProxyProviderData> Providers { get; set; }
     }
 }
