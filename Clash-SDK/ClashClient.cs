@@ -20,42 +20,16 @@ namespace Clash.SDK
         /// <summary>
         /// 初始化ClashClient实例
         /// </summary>
-        public ClashClient()
+        public ClashClient() : this("http://127.0.0.1:8080", "ws://127.0.0.1:8080")
         {
-            _baseUrl = "http://127.0.0.1:8080";
-            _baseWsUrl = "ws://127.0.0.1:8080";
-            _httpClientHandler = new HttpClientHandler
-            {
-                UseProxy = false,
-#if NET5_0_OR_GREATER && NETCOREAPP3_1_OR_GREATER
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate | DecompressionMethods.Brotli
-#else
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-#endif
-            };
-            _httpClient = new HttpClient(_httpClientHandler);
-            _httpClient.Timeout = TimeSpan.FromSeconds(6);
         }
 
         /// <summary>
         /// 初始化ClashClient实例
         /// </summary>
         /// <param name="port">控制器端口</param>
-        public ClashClient(int port)
+        public ClashClient(int port) : this($"http://127.0.0.1:{port}", $"ws://127.0.0.1:{port}")
         {
-            _baseUrl = $"http://127.0.0.1:{port}";
-            _baseWsUrl = $"ws://127.0.0.1:{port}";
-            _httpClientHandler = new HttpClientHandler
-            {
-                UseProxy = false,
-#if NET5_0_OR_GREATER && NETCOREAPP3_1_OR_GREATER
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate | DecompressionMethods.Brotli
-#else
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-#endif
-            };
-            _httpClient = new HttpClient(_httpClientHandler);
-            _httpClient.Timeout = TimeSpan.FromSeconds(6);
         }
 
         /// <summary>
@@ -80,21 +54,18 @@ namespace Clash.SDK
         }
 
         /// <summary>
-        /// 设置控制器Secret
+        /// 控制器Secret
         /// </summary>
-        /// <param name="secret"></param>
-        public void SetSecret(string secret)
+        public string Secret
         {
-            if (_httpClient != null && !string.IsNullOrWhiteSpace(secret))
+            get => _secret;
+            set
             {
-                _secret = secret;
-                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {secret}");
+                if (_httpClient == null || string.IsNullOrWhiteSpace(value))
+                    return;
+                _secret = value;
+                _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {value}");
             }
-        }
-
-        public string GetSecret()
-        {
-            return _secret;
         }
 
         /// <summary>
@@ -112,11 +83,12 @@ namespace Clash.SDK
                 query = "?" + string.Join("&", parameters.Select(p => p.Key + "=" + Uri.EscapeDataString(p.Value)));
                 url += query;
             }
+
             var response = await _httpClient.GetAsync(url);
             string result = await response.Content.ReadAsStringAsync();
             if (typeof(T) == typeof(String))
             {
-                return (T)(object)result;
+                return (T) (object) result;
             }
             else
             {
@@ -153,7 +125,8 @@ namespace Clash.SDK
         /// <param name="parameters">请求参数</param>
         /// <param name="putData">需要PUT提交的数据</param>
         /// <returns></returns>
-        internal async Task<T> PutAsync<T>(string url, Dictionary<string, dynamic> parameters = null, object putData = null)
+        internal async Task<T> PutAsync<T>(string url, Dictionary<string, dynamic> parameters = null,
+            object putData = null)
         {
             string query = "";
             if (parameters != null && parameters.Count > 0)
@@ -161,6 +134,7 @@ namespace Clash.SDK
                 query = "?" + string.Join("&", parameters.Select(p => p.Key + "=" + Uri.EscapeDataString(p.Value)));
                 url += query;
             }
+
             string json = JsonConvert.SerializeObject(putData);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync(url, httpContent);
