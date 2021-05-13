@@ -15,7 +15,7 @@
     <PackageProjectUrl>https://github.com/CoelWu/Clash-SDK</PackageProjectUrl>
     <RepositoryUrl>https://github.com/CoelWu/Clash-SDK</RepositoryUrl>
     <PackageIcon>Clash_icon.png</PackageIcon>
-    <Version>1.3.2</Version>
+    <Version>1.3.3</Version>
   </PropertyGroup>
 
   <ItemGroup>

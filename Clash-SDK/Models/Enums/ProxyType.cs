@@ -43,6 +43,9 @@ namespace Clash.SDK.Models.Enums
         [EnumMember(Value = "Vmess")]
         Vmess,
 
+        [EnumMember(Value = "Vless")]
+        Vless,
+
         [EnumMember(Value = "Trojan")]
         Trojan,
 
