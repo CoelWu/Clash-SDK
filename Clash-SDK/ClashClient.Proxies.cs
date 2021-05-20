@@ -44,11 +44,11 @@ namespace Clash.SDK
             return result;
         }
 
-        public async Task<ClashProxyDetailResponse> GetClashProxyDetail(string name)
+        public async Task<ClashProxyData> GetClashProxyDetail(string name)
         {
             string url = string.Format(API_PROXIES_NAME, Uri.EscapeDataString(name));
 
-            var result = await GetAsync<ClashProxyDetailResponse>(url);
+            var result = await GetAsync<ClashProxyData>(url);
             return result;
         }
 
@@ -89,6 +89,14 @@ namespace Clash.SDK
         public async Task<ClashNullableResponse> DisconnectAllConnections()
         {
             var result = await DeleteAsync<ClashNullableResponse>(API_CONNECTIONS);
+            return result;
+        }
+
+        public async Task<ClashProxyProviderData> GetClashProvider(string name)
+        {
+            string url = string.Format(API_PROXY_PROVIDER_NAME, Uri.EscapeDataString(name));
+
+            var result = await GetAsync<ClashProxyProviderData>(url);
             return result;
         }
 
