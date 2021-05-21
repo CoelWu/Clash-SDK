@@ -77,7 +77,7 @@ namespace Clash.SDK
             return result;
         }
 
-        public async Task<ClashRuleProviderData> GetRuleProvider(string name)
+        public async Task<ClashRuleProviderData> GetClashRuleProvider(string name)
         {
             string url = string.Format(API_RULE_PROVIDER_NAME, Uri.EscapeDataString(name));
 
@@ -85,7 +85,7 @@ namespace Clash.SDK
             return result;
         }
 
-        public async Task<ClashNullableResponse> UpdateRuleProvider(string name)
+        public async Task<ClashNullableResponse> UpdateClashRuleProvider(string name)
         {
             string url = string.Format(API_RULE_PROVIDER_NAME, Uri.EscapeDataString(name));
 

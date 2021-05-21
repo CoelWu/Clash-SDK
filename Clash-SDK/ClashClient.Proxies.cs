@@ -92,7 +92,7 @@ namespace Clash.SDK
             return result;
         }
 
-        public async Task<ClashProxyProviderData> GetClashProvider(string name)
+        public async Task<ClashProxyProviderData> GetClashProxyProvider(string name)
         {
             string url = string.Format(API_PROXY_PROVIDER_NAME, Uri.EscapeDataString(name));
 
@@ -108,7 +108,7 @@ namespace Clash.SDK
             return result;
         }
 
-        public async Task<ClashNullableResponse> UpdateProxyProvider(string name)
+        public async Task<ClashNullableResponse> UpdateClashProxyProvider(string name)
         {
             string url = string.Format(API_PROXY_PROVIDER_NAME, Uri.EscapeDataString(name));
 
