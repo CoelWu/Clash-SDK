@@ -1,4 +1,6 @@
-﻿using Clash.SDK.Models.Response;
+﻿using Clash.SDK.Extensions;
+using Clash.SDK.Models.Enums;
+using Clash.SDK.Models.Response;
 using Clash.SDK.Models.Share;
 using Newtonsoft.Json.Linq;
 using System;
@@ -42,17 +44,28 @@ namespace Clash.SDK
             return result;
         }
 
-        public async Task<ClashNullableResponse> ReloadClashConfig(bool force = false, string path = "")
+        public async Task<ClashNullableResponse> ReloadClashConfig(ConfigType type = ConfigType.Path, bool force = false, string value = "")
         {
             var dict = new Dictionary<string, dynamic>();
-            dict.Add("force", Convert.ToString(force));
+            dict.Add("force", force.ToLowerString());
 
-            var obj = new
+            object obj = new object{};
+            if (type == ConfigType.Path)
             {
-                path = path,
-            };
+                obj = new
+                { 
+                    path = value,
+                };
+            }
+            else if (type == ConfigType.Payload)
+            {
+                obj = new
+                {
+                    payload = value,
+                };
+            }
 
-            var result = await PutAsync<ClashNullableResponse>(API_CONFIGS, dict, string.IsNullOrWhiteSpace(path) ? null : obj);
+            var result = await PutAsync<ClashNullableResponse>(API_CONFIGS, dict, string.IsNullOrWhiteSpace(value) ? null : obj);
             return result;
         }
 
