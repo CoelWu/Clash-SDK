@@ -8,7 +8,13 @@ namespace Clash.SDK.Models.Response
     public class ClashVersionResponse
     {
         /// <summary>
-        /// 是否是Premium
+        /// 是否是Experimental版本
+        /// </summary>
+        [JsonProperty("experimental")]
+        public bool Experimental { get; set; }
+
+        /// <summary>
+        /// 是否是Premium版本
         /// </summary>
         [JsonProperty("premium")]
         public bool Premium { get; set; }

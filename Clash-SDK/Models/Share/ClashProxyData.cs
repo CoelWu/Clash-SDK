@@ -16,7 +16,7 @@ namespace Clash.SDK.Models.Share
         public List<ClashDelayData> History { get; set; }
 
         /// <summary>
-        /// 规则中的所有代理
+        /// 代理组中的所有代理
         /// </summary>
         [JsonProperty("all")]
         public List<string> All { get; set; }
@@ -28,15 +28,21 @@ namespace Clash.SDK.Models.Share
         public string Now { get; set; }
 
         /// <summary>
-        /// 规则名称
+        /// 代理名称
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
-        /// 规则类型
+        /// 代理类型
         /// </summary>
         [JsonProperty("type")]
         public ProxyType Type { get; set; }
+
+        /// <summary>
+        /// 是否支持UDP
+        /// </summary>
+        [JsonProperty("udp")]
+        public bool Udp { get; set; }
     }
 }
