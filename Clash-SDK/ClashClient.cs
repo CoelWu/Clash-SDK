@@ -61,6 +61,26 @@ namespace Clash.SDK
         /// <summary>
         /// 初始化ClashClient实例
         /// </summary>
+        /// <param name="address">控制器地址</param>
+        public ClashClient(string address)
+        {
+            _baseUrl = $"http://{address}";
+            _baseWsUrl = $"ws://{address}";
+            _httpClientHandler = new HttpClientHandler
+            {
+#if NET5_0_OR_GREATER && NETCOREAPP3_1_OR_GREATER
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate | DecompressionMethods.Brotli
+#else
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+#endif
+            };
+            _httpClient = new HttpClient(_httpClientHandler);
+            _httpClient.Timeout = TimeSpan.FromSeconds(6);
+        }
+
+        /// <summary>
+        /// 初始化ClashClient实例
+        /// </summary>
         /// <param name="http">控制器Http地址</param>
         /// <param name="ws">控制器Websocket地址</param>
         public ClashClient(string http, string ws)
